@@ -220,7 +220,7 @@ Build command: `npm run build` (Vite). Output directory: `dist/` (Vite) or `buil
 
 ## License & legal
 
-Add your preferred license file (e.g., `MIT`, `Apache-2.0`) in the repo root. For now, this project is internal to Safe Harbor (in formation).
+For now, this project is internal to Safe Harbor (in formation).
 
 
 ## Contacts
