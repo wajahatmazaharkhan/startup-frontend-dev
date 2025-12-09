@@ -6,17 +6,39 @@ const CustomDropdown = ({ options, placeholder }) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("");
 
+  const isPlaceholder = selected === "";
+
   return (
     <div className="relative w-full">
+
       {/* Input-style dropdown */}
       <div
         onClick={() => setOpen(!open)}
-        className="px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#8473E8] cursor-pointer w-full text-[#8473E8] flex justify-between items-center overflow-hidden"
+        className="
+          px-3 py-2 border rounded-lg cursor-pointer w-full flex justify-between items-center overflow-hidden
+          focus:ring-2 focus:ring-[#8473E8]
+        "
+        style={{
+          color: isPlaceholder ? "#8473E8" : "black",      // placeholder purple, selected black
+          fontWeight: isPlaceholder ? 400 : 500,           // placeholder REGULAR, selected MEDIUM
+        }}
       >
-        <span className="truncate w-full">{selected || placeholder}</span>
-        <span className="ml-2 text-[#8473E8] text-lg select-none leading-none">
-          {open ? "⌃" : "⌄"}
+        <span className="truncate w-full">
+          {selected || placeholder}
         </span>
+
+        {/* Arrow */}
+       <span
+  className="ml-2 text-[#8473E8] select-none"
+  style={{
+    fontSize: open ? "24px" : "20px",    // open pe thoda wider
+    transform: "translateY(-2px)",       // arrow thoda upar
+    fontWeight: 400,
+  }}
+>
+  {open ? "⌃" : "⌄"}
+</span>
+
       </div>
 
       {/* Dropdown Options */}
@@ -29,7 +51,11 @@ const CustomDropdown = ({ options, placeholder }) => {
                 setSelected(opt);
                 setOpen(false);
               }}
-              className="px-4 py-3 cursor-pointer text-[#8473E8] hover:bg-[#f0f0ff] truncate"
+              className="px-4 py-3 cursor-pointer hover:bg-[#f0f0ff] truncate"
+              style={{
+                color: "black",
+                fontWeight: 500,  
+              }}
             >
               {opt}
             </div>
@@ -106,7 +132,7 @@ const Signup = () => {
             <DatePicker
               selected={dob}
               onChange={(date) => setDob(date)}
-              placeholderText="Date of Birth"
+              placeholderText="DOB"
               className="px-3 py-2 border border-[#8473E8] rounded-lg focus:ring-2 focus:ring-[#8473E8] text-[#8473E8] w-full"
               calendarClassName="bg-white border border-[#8473E8] rounded-lg"
               dayClassName={() => "text-[#8473E8]"}
