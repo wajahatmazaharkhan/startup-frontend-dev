@@ -23,7 +23,7 @@ import Signup from "./pages/Signup";
 //      Components & Page Imports     //
 ////////////////////////////////////////
 
-import { Home, AdminLogin } from "./pages";
+import { Home, AdminLogin, ForgotPassword, VerifyOTP, ResetPassword } from "./pages";
 import { Navbar } from "./components";
 import { useEffect } from "react";
 
@@ -38,6 +38,9 @@ const AppContent = () => {
         <Route path="/" element={<Home />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/forgot" element={<ForgotPassword />} />
+        <Route path="/verify-otp" element={<VerifyOTP />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
     </div>
   );
