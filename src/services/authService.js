@@ -1,6 +1,6 @@
 /**
  * Authentication service for password reset flow
- * Handles API calls for forgot password, OTP verification, and password reset will work with backend later now working with dummy data
+ * Handles API calls for forgot password, OTP verification, and password reset
  */
 
 /**

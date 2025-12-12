@@ -29,11 +29,7 @@ import { useEffect } from "react";
 
 const AppContent = () => {
   const location = useLocation();
-  const hideNavbar = location.pathname === "/admin/login" || 
-                     location.pathname === "/signup" ||
-                     location.pathname === "/forgot" ||
-                     location.pathname === "/verify-otp" ||
-                     location.pathname === "/reset-password";
+  const hideNavbar = location.pathname === "/admin/login" || "/signup";
 
   return (
     <div>
