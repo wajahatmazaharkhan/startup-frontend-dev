@@ -5,6 +5,7 @@ import { ButtonCallToAction } from "./index";
 import { ChevronDown } from "lucide-react";
 import { Dropdown } from "./index";
 import navbarItems from "../data/navbar";
+import { NovuInbox } from "./index";
 
 const Navbar = () => {
   const [display, setDisplay] = useState(false);
@@ -30,7 +31,6 @@ const Navbar = () => {
     <>
       {/* 👇 Added margin to avoid content hiding under fixed navbar */}
       <div className="mt-20">
-
         <nav className="m-4 fixed top-0 left-0 w-full bg-transparent z-50 ">
           <div className="flex justify-between">
             <img src={Logo} className="w-6 h-6" />
@@ -51,19 +51,25 @@ const Navbar = () => {
                   Home
                 </li>
 
-
-                <li className="mx-[30px] hover:text-purple-900 relative
+                <li
+                  className="mx-[30px] hover:text-purple-900 relative
     after:absolute after:left-0 after:bottom-[39px] after:h-[3px] after:w-0 after:bg-purple-500 after:transition-all after:duration-300
     after:shadow-[0_0_10px_#a855f7]
     before:absolute before:left-0 before:top-[39px] before:h-[3px] before:w-0 before:bg-purple-500 before:transition-all before:duration-300
     before:shadow-[0_0_10px_#a855f7]
-    hover:after:w-full hover:before:w-full">About</li>
-                <li onClick={() => setDisplay(!display)} className="mx-[30px] hover:text-purple-900 relative
+    hover:after:w-full hover:before:w-full"
+                >
+                  About
+                </li>
+                <li
+                  onClick={() => setDisplay(!display)}
+                  className="mx-[30px] hover:text-purple-900 relative
     after:absolute after:left-0 after:bottom-[39px] after:h-[3px] after:w-0 after:bg-purple-500 after:transition-all after:duration-300
     after:shadow-[0_0_10px_#a855f7]
     before:absolute before:left-0 before:top-[39px] before:h-[3px] before:w-0 before:bg-purple-500 before:transition-all before:duration-300
     before:shadow-[0_0_10px_#a855f7]
-    hover:after:w-full hover:before:w-full">
+    hover:after:w-full hover:before:w-full"
+                >
                   Services
                   <button
                     onClick={() => setDisplay(!display)}
@@ -74,21 +80,37 @@ const Navbar = () => {
                 </li>
               </ul>
             </div>
-            <div className="cta-button mr-10 hidden sm:flex">
-              <ButtonCallToAction content="Get Started" />
+            <div className="flex items-center gap-4 mr-6">
+              {/* Notifications – always visible */}
+              {!mobileDisplay && (
+                <div className="relative transition">
+                  <NovuInbox />
+                </div>
+              )}
+
+              {/* CTA – desktop only */}
+              <div className="hidden sm:flex">
+                <ButtonCallToAction content="Get Started" />
+              </div>
+
+              {/* Mobile menu */}
+              <button onClick={() => setMobileDisplay(!mobileDisplay)}>
+                <img
+                  src={Menu}
+                  alt="menu-icon"
+                  className="w-[25px] h-[25px] sm:hidden"
+                />
+              </button>
             </div>
-            <button onClick={() => setMobileDisplay(!mobileDisplay)}>
-              <img
-                src={Menu}
-                alt="menu-icon"
-                className="ml-auto w-[25px] h-[25px] sm:hidden"
-              />
-            </button>
           </div>
         </nav>
 
         {mobileDisplay && (
-          <div ref={areaRef} data-aos="fade-down" className="mobile-menu-wrapper">
+          <div
+            ref={areaRef}
+            data-aos="fade-down"
+            className="mobile-menu-wrapper"
+          >
             <div className="bg-purple-500 w-full h-[200px] place-content-center rounded-b-full absolute -top-20">
               <div className="items">
                 <ul className="flex justify-center montserrat font-normal">

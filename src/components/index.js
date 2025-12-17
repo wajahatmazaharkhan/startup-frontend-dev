@@ -3,6 +3,10 @@
 ///////////////////////////////////////////////
 
 export { default as Navbar } from "./Navbar";
-export {default as ButtonCallToAction} from "./ui/button/ButtonCallToAction"
-export {default as Dropdown} from "./ui/navbar/Dropdown"
-export {default as DropdownLarge} from "./ui/navbar/DropdownLarge"
+export { default as ButtonCallToAction } from "./ui/button/ButtonCallToAction";
+export { default as Dropdown } from "./ui/navbar/Dropdown";
+export { default as DropdownLarge } from "./ui/navbar/DropdownLarge";
+
+import { NovuInbox } from "./NovuInbox";
+
+export { NovuInbox };
