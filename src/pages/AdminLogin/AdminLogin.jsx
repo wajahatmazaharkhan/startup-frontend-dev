@@ -69,12 +69,12 @@ export default function AdminLogin() {
 
         {/* DESKTOP BRAND */}
         <div className="hidden lg:flex items-center gap-2 text-base font-semibold text-purple-500 mb-8">
-          <span className="montserrat">Safe Harbour</span>
+          <span className="font-[Montserrat">Safe Harbour</span>
         </div>
 
         {/* MOBILE TITLE IN PURPLE ARC */}
         <div className="lg:hidden flex flex-col items-center absolute top-[45px] left-1/2 -translate-x-1/2 z-20 w-full">
-          <h1 className="montserrat text-center text-4xl font-semibold text-white">
+          <h1 className="font-[Montserrat text-center text-4xl font-semibold text-white">
             Welcome
           </h1>
         </div>
@@ -91,7 +91,7 @@ export default function AdminLogin() {
             {/* DESKTOP TITLE + ICON */}
             <div className="hidden lg:flex flex-col items-center gap-3 mb-6">
               <img src={Logo} className="h-10 w-10" />
-              <h1 className="montserrat text-[52px] font-semibold text-purple-500">
+              <h1 className="font-[Montserrat text-[52px] font-semibold text-purple-500">
                 Welcome
               </h1>
             </div>

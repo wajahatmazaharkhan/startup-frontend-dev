@@ -81,7 +81,7 @@ const Signup = () => {
           left: "60px",
           width: "152px",
           height: "27px",
-          fontFamily: "Montserrat",
+          fontFamily: "font-[Montserrat",
           fontWeight: "700",
           fontSize: "22px",
           lineHeight: "100%",

@@ -34,7 +34,7 @@ const Navbar = () => {
         <nav className="m-4 fixed top-0 left-0 w-full bg-transparent z-50 ">
           <div className="flex justify-between">
             <img src={Logo} className="w-6 h-6" />
-            <h1 className="text-sm mt-1 mx-3 text-purple-500 logo-typography montserrat sm:text-[16px] sm:text-purple-500">
+            <h1 className="text-sm mt-1 mx-3 text-purple-500 logo-typography font-[Montserrat sm:text-[16px] sm:text-purple-500">
               Safe Harbour
             </h1>
             <div className="list-items bg-white/90 relative hidden sm:block mx-auto sm:text-xl sm:border sm:border-purple-500 sm:font-normal sm:rounded-[50px] sm:p-2 sm:place-content-center hover:cursor-pointer">
@@ -91,7 +91,7 @@ const Navbar = () => {
           <div ref={areaRef} data-aos="fade-down" className="mobile-menu-wrapper">
             <div className="bg-purple-500 w-full h-[200px] place-content-center rounded-b-full absolute -top-20">
               <div className="items">
-                <ul className="flex justify-center montserrat font-normal">
+                <ul className="flex justify-center font-[Montserrat font-normal">
                   <li className="text-white mx-5">Home</li>
                   <li className="text-white mx-5">About</li>
                   <li className="text-white mx-5">Services</li>

@@ -13,7 +13,7 @@
 //
 ////////////////////////////////////////////////////////
 
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, } from "react-router-dom";
 import "./App.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -28,12 +28,10 @@ import { Navbar } from "./components";
 import { useEffect } from "react";
 
 const AppContent = () => {
-  const location = useLocation();
-  const hideNavbar = location.pathname === "/admin/login" || "/signup";
 
   return (
     <div>
-      {!hideNavbar && <Navbar />}
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admin/login" element={<AdminLogin />} />
