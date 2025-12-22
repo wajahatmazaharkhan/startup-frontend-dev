@@ -8,8 +8,8 @@ const Home = () => {
 		<div className="flex flex-col min-h-screen">
 			<Navbar />
 			<main className="grow">
-				<HeroSection/>
-        <DoctorUI />
+			    <HeroSection/>
+        		<DoctorUI />
 			</main>
 			<Footer />
 		</div>

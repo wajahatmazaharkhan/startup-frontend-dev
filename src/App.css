@@ -1,7 +1,16 @@
 @import 'tailwindcss';
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap');
+
+@theme {
+  --color-purple-500: oklch(62.67% 0.17 287.08);
+  --text-purple-500: oklch(62.67% 0.17 287.08);
+  --color-purple-600: oklch(46.39% 0.177 283.72);
+  --color-brand: #8e76f2;
+  --color-brand-light: #ede6ff;
+  --color-brand-text: #b9a8f6;
+  --color-dark: #2e2e2e;
+  --color-muted: #8a8a8a;
+  --color-white: #ffffff;
+}
 
 .montserrat {
   font-family: 'Montserrat', 'sans-serif';
@@ -14,18 +23,6 @@
 
 .inter {
   font-family: 'Inter', 'sans-serif';
-}
-
-@theme {
-  --color-purple-500: oklch(62.67% 0.17 287.08);
-  --text-purple-500: oklch(62.67% 0.17 287.08);
-  --color-purple-600: oklch(46.39% 0.177 283.72);
-  --color-brand: #8e76f2;
-  --color-brand-light: #ede6ff;
-  --color-brand-text: #b9a8f6;
-  --color-dark: #2e2e2e;
-  --color-muted: #8a8a8a;
-  --color-white: #ffffff;
 }
 
 .logo-typography {

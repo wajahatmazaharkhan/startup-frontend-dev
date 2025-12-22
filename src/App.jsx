@@ -21,8 +21,9 @@ import {
 } from 'react-router-dom';
 import './App.css';
 import AOS from 'aos';
-import { useEffect } from 'react';
+
 import 'aos/dist/aos.css';
+import { useEffect, useState } from 'react';
 
 ////////////////////////////////////////
 //      Components & Page Imports     //
@@ -39,13 +40,26 @@ import {
   CounsellorSignup,
 } from './pages';
 import { Footer, Navbar } from './components';
-
+import LandingPage from './pages/LandingPage'
 const AppContent = () => {
   const location = useLocation();
+  const [showLanding, setShowLanding] = useState(true);
+
+  // 4. LOGIC: Check if we are on the Root URL ('/') AND state is true
+  const isLandingVisible = location.pathname === '/' && showLanding;
+
+  // Handler to close landing page
+  const handleGetStarted = () => {
+    setShowLanding(false);
+  };
   const hideNavbar =
     location.pathname === '/admin/login' ||
     location.pathname === '/signup' ||
     location.pathname === '/counsellor/signup';
+
+  if (isLandingVisible) {
+    return <LandingPage onGetStarted={handleGetStarted} />;
+  }
 
   return (
     <div>
