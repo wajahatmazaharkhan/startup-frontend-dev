@@ -5,8 +5,6 @@ import { FileInput } from './FileInput';
 import FormHeader from './FormHeader';
 import CustomDropdown from './SelectInput';
 import InputField from './InputField';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 
 export default function CounsellorSignup() {
   const [step, setStep] = useState(1);

@@ -1,14 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Logo from '../../assets/Logo.png';
-import RightArrow from '../../assets/RightArrow.svg';
-import { verifyUserOtp } from '../../services/authServiceNew';
+import Logo from '../assets/Logo.png';
+import RightArrow from '../assets/RightArrow.svg';
+import { verifyUserOtp, verifyUserPasswordOtp } from '../services/authServiceNew';
 import { toast } from 'react-toastify';
 
 const OTP_LENGTH = 4;
 const RESEND_COOLDOWN = 60;
 
-export default function VerifyOTP() {
+export default function ResetPasswordOTP() {
   const [otp, setOtp] = useState(Array(OTP_LENGTH).fill(''));
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -94,11 +94,13 @@ export default function VerifyOTP() {
     setError('');
 
     try {
-      const res = await verifyUserOtp(email, otpString);
+      const res = await verifyUserPasswordOtp(email, otpString);
+      console.log('🚀 ~ handleSubmit ~ res:', res);
       if (res.success) {
         toast.success('Account Verified!');
       }
-      navigate('/login');
+      navigate('/reset-password');
+      sessionStorage.setItem('user-email', email);
     } catch (error) {
       toast.error(error?.response?.data?.msg);
       resetOtp();
@@ -121,8 +123,8 @@ export default function VerifyOTP() {
     setError('');
 
     try {
-      const { forgotPassword } = await import('../../services/authService');
-      await forgotPassword(email);
+      // const { forgotPassword } = await import('../../services/authService');
+      // await forgotPassword(email);
     } catch {
       setError('Failed to resend code. Try again.');
     }

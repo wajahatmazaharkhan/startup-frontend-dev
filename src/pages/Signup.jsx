@@ -1,57 +1,114 @@
-import { useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import { useState, useCallback, useRef, useEffect } from 'react';
+import { DayPicker } from 'react-day-picker';
+import 'react-day-picker/style.css';
+import { toast } from 'react-toastify';
+import { z } from 'zod';
+import { signupUser } from '../services/authServiceNew';
+import { Link, useNavigate } from 'react-router-dom';
 
-const CustomDropdown = ({ options, placeholder }) => {
+/* =======================
+   ZOD VALIDATION
+======================= */
+const SignupValidation = z.object({
+  fullname: z
+    .string()
+    .min(3, 'Full name must be at least 3 characters')
+    .max(50),
+  email: z.string().email('Invalid email'),
+  phone_number: z.string().regex(/^[0-9]{10}$/, 'Phone must be 10 digits'),
+  password: z
+    .string()
+    .min(8, 'Password must be at least 8 characters')
+    .regex(/[A-Z]/, 'Password must include an uppercase letter')
+    .regex(/[0-9]/, 'Password must include a number'),
+  dob: z
+    .date()
+    .refine((date) => date < new Date(), 'DOB cannot be in the future'),
+  gender: z.enum(['male', 'female', 'other']),
+  timezone: z.string().min(2),
+  preferred_language: z.string().min(2),
+});
+
+/* =======================
+   HELPERS
+======================= */
+const normalizePhone = (value) => {
+  let digits = value.replace(/\D/g, '');
+
+  if (digits.startsWith('91') && digits.length > 10) {
+    digits = digits.slice(2);
+  }
+
+  return digits.slice(0, 10);
+};
+
+/* =======================
+   ACCESSIBLE CUSTOM DROPDOWN
+   (UI IDENTICAL)
+======================= */
+const CustomDropdown = ({ options, placeholder, value, onChange }) => {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState('');
+  const ref = useRef(null);
+  const isPlaceholder = !value;
 
-  const isPlaceholder = selected === '';
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
-    <div className='relative w-full'>
-      {/* Input-style dropdown */}
+    <div ref={ref} className='relative w-full'>
       <div
+        role='button'
+        tabIndex={0}
+        aria-expanded={open}
         onClick={() => setOpen(!open)}
-        className='
-          px-3 py-2 border rounded-lg cursor-pointer w-full flex justify-between items-center overflow-hidden
-          focus:ring-2 focus:ring-[#8473E8]
-        '
+        onKeyDown={(e) => e.key === 'Enter' && setOpen(!open)}
+        className='px-3 py-2 border rounded-lg cursor-pointer w-full flex justify-between items-center overflow-hidden'
         style={{
-          color: isPlaceholder ? '#8473E8' : 'black', // placeholder purple, selected black
-          fontWeight: isPlaceholder ? 400 : 500, // placeholder REGULAR, selected MEDIUM
+          color: isPlaceholder ? '#8473E8' : 'black',
+          fontWeight: isPlaceholder ? 400 : 500,
         }}
       >
-        <span className='truncate w-full'>{selected || placeholder}</span>
-
-        {/* Arrow */}
+        <span className='truncate w-full'>{value || placeholder}</span>
         <span
           className='ml-2 text-[#8473E8] select-none'
           style={{
-            fontSize: open ? '24px' : '20px', // open pe thoda wider
-            transform: 'translateY(-2px)', // arrow thoda upar
-            fontWeight: 400,
+            fontSize: open ? '24px' : '20px',
+            transform: 'translateY(-2px)',
           }}
         >
           {open ? '⌃' : '⌄'}
         </span>
       </div>
 
-      {/* Dropdown Options */}
       {open && (
-        <div className='absolute mt-2 w-full max-h-[160px] border border-[#8473E8] rounded-[15px] bg-white overflow-auto z-20 shadow-md'>
-          {options.map((opt, idx) => (
+        <div
+          role='listbox'
+          className='absolute mt-2 w-full max-h-[160px] border border-[#8473E8] rounded-[15px] bg-white overflow-auto z-20 shadow-md'
+        >
+          {options.map((opt) => (
             <div
-              key={idx}
+              key={opt}
+              role='option'
+              tabIndex={0}
               onClick={() => {
-                setSelected(opt);
+                onChange(opt);
                 setOpen(false);
               }}
-              className='px-4 py-3 cursor-pointer hover:bg-[#f0f0ff] truncate'
-              style={{
-                color: 'black',
-                fontWeight: 500,
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  onChange(opt);
+                  setOpen(false);
+                }
               }}
+              className='px-4 py-3 cursor-pointer hover:bg-[#f0f0ff] truncate'
+              style={{ fontWeight: 500 }}
             >
               {opt}
             </div>
@@ -62,27 +119,74 @@ const CustomDropdown = ({ options, placeholder }) => {
   );
 };
 
+/* =======================
+   SIGNUP COMPONENT
+======================= */
 const Signup = () => {
-  const [dob, setDob] = useState(null); // DOB state
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [form, setForm] = useState({
+    fullname: '',
+    email: '',
+    phone_number: '',
+    password: '',
+    dob: null,
+    gender: '',
+    timezone: 'Asia/India',
+    preferred_language: '',
+  });
+
+  const handleInputData = useCallback((e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  }, []);
+
+  const navigate = useNavigate();
+
+  /* =======================
+     SUBMIT HANDLER
+  ======================= */
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+
+      SignupValidation.parse(form);
+
+      const res = await signupUser(
+        form.fullname,
+        form.email,
+        form.password,
+        form.phone_number,
+        form.dob.toISOString(),
+        form.gender,
+        form.timezone,
+        form.preferred_language,
+      );
+
+      if (!res?.success) {
+        throw new Error(res?.msg || 'Signup failed');
+      }
+
+      toast.success('Welcome! Your account is ready.');
+      setTimeout(() => navigate(`/verify-otp/${form.email}`), 2000);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        toast.error(error.issues[0].message);
+      } else {
+        toast.error(error.response.data.msg || 'Something went wrong');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className='relative min-h-screen bg-white overflow-hidden'>
       {/* Desktop Safe Harbour */}
-      <div
-        className='hidden md:block'
-        style={{
-          position: 'absolute',
-          top: '60px',
-          left: '60px',
-          width: '152px',
-          height: '27px',
-          fontFamily: 'Montserrat',
-          fontWeight: '700',
-          fontSize: '22px',
-          lineHeight: '100%',
-          color: '#8473E8',
-        }}
-      >
+      <div className='hidden md:block absolute top-[60px] left-[60px] text-[#8473E8] text-[22px] font-bold'>
         Safe Harbour
       </div>
 
@@ -94,21 +198,20 @@ const Signup = () => {
       </div>
 
       {/* FORM CONTAINER */}
-      <div
-        className='absolute top-[200px] left-1/2 md:left-[158px] w-[90%] md:w-[584px] h-[608px] 
-                   md:bg-[#FFFFFF8A] bg-[#FFFFFF8A]  
-                   md:rounded-[10px] rounded-[5px] p-4 md:p-5 transform -translate-x-1/2 md:translate-x-0'
+      <form
+        onSubmit={handleSubmit}
+        className='absolute top-[200px] left-1/2 md:left-[158px] w-[90%] md:w-[584px] h-[608px]
+        bg-[#FFFFFF8A] md:rounded-[10px] rounded-[5px] p-4 md:p-5 transform -translate-x-1/2 md:translate-x-0'
       >
         {/* LOGO */}
-        <div className='w-full flex justify-center md:mt-4 mt-[25px]'>
+        <div className='w-full flex justify-center mt-[25px] md:mt-4'>
           <img
             src='/logo.png'
             alt='logo'
-            className='md:h-12 md:w-12 h-[25px] w-[26px]'
+            className='h-[25px] w-[26px] md:h-12 md:w-12'
           />
         </div>
 
-        {/* Desktop Welcome */}
         <h1 className='hidden md:block text-center text-[#8473E8] text-3xl font-semibold mt-3'>
           Welcome
         </h1>
@@ -116,128 +219,127 @@ const Signup = () => {
         {/* FORM GRID */}
         <div className='grid grid-cols-2 gap-4 px-1 mt-6'>
           <input
-            type='text'
+            name='fullname'
+            value={form.fullname}
+            onChange={handleInputData}
             placeholder='Full Name'
-            className='px-3 py-2 border border-[#8473E8] rounded-lg focus:ring-2 focus:ring-[#8473E8] placeholder-[#8473E8] truncate'
+            className='px-3 py-2 border border-[#8473E8] rounded-lg placeholder-[#8473E8]'
           />
 
-          {/* DATE PICKER FIELD */}
-          <div className='relative w-full z-10'>
-            <DatePicker
-              selected={dob}
-              onChange={(date) => setDob(date)}
-              placeholderText='DOB'
-              className='px-3 py-2 border border-[#8473E8] rounded-lg focus:ring-2 focus:ring-[#8473E8] text-[#8473E8] w-full'
-              calendarClassName='bg-white border border-[#8473E8] rounded-lg'
-              dayClassName={() => 'text-[#8473E8]'}
-              headerClassName='bg-[#8473E8] text-white font-semibold'
-              popperClassName='shadow-lg'
-              popperPlacement='bottom-start'
-              portalId='root-portal'
-              withPortal
+          {/* DOB */}
+          <div className='relative'>
+            <input
+              readOnly
+              onClick={() => setShowCalendar(!showCalendar)}
+              value={form.dob ? form.dob.toLocaleDateString() : ''}
+              placeholder='DOB'
+              className='px-3 py-2 border border-[#8473E8] rounded-lg placeholder-[#8473E8] w-full cursor-pointer'
             />
+
+            {showCalendar && (
+              <div className='absolute z-30 mt-2 bg-white border border-[#8473E8] rounded-lg shadow-lg'>
+                <DayPicker
+                  mode='single'
+                  selected={form.dob}
+                  onSelect={(date) => {
+                    if (date) {
+                      setForm((prev) => ({ ...prev, dob: date }));
+                      setShowCalendar(false);
+                    }
+                  }}
+                  className='p-3 text-[#8473E8]'
+                />
+              </div>
+            )}
           </div>
 
           <input
             type='tel'
+            value={form.phone_number}
+            onChange={(e) =>
+              setForm((prev) => ({
+                ...prev,
+                phone_number: normalizePhone(e.target.value),
+              }))
+            }
             placeholder='Phone'
-            className='px-3 py-2 border border-[#8473E8] rounded-lg focus:ring-2 focus:ring-[#8473E8] placeholder-[#8473E8] truncate'
+            className='px-3 py-2 border border-[#8473E8] rounded-lg placeholder-[#8473E8]'
           />
 
           <CustomDropdown
-            options={['Male', 'Female', 'Prefer Not To Say']}
+            options={['male', 'female', 'other']}
             placeholder='Gender'
+            value={form.gender}
+            onChange={(v) => setForm((prev) => ({ ...prev, gender: v }))}
           />
 
           <input
             type='email'
+            name='email'
+            value={form.email}
+            onChange={handleInputData}
             placeholder='Email'
-            className='px-3 py-2 border border-[#8473E8] rounded-lg focus:ring-2 focus:ring-[#8473E8] placeholder-[#8473E8] truncate'
+            className='px-3 py-2 border border-[#8473E8] rounded-lg placeholder-[#8473E8]'
           />
 
           <CustomDropdown
             options={['English', 'Hindi']}
             placeholder='Language'
+            value={form.preferred_language}
+            onChange={(v) =>
+              setForm((prev) => ({ ...prev, preferred_language: v }))
+            }
           />
 
           <input
             type='password'
+            name='password'
+            value={form.password}
+            onChange={handleInputData}
             placeholder='Password'
-            className='px-3 py-2 border border-[#8473E8] rounded-lg focus:ring-2 focus:ring-[#8473E8] placeholder-[#8473E8] truncate'
+            className='px-3 py-2 border border-[#8473E8] rounded-lg placeholder-[#8473E8]'
           />
 
-          <CustomDropdown options={['GMT +5:30']} placeholder='Time Zone' />
+          <CustomDropdown
+            readOnly
+            options={[form.timezone]}
+            placeholder='Time Zone'
+            value={form.timezone}
+            onChange={(v) => setForm((prev) => ({ ...prev, timezone: v }))}
+          />
         </div>
 
-        {/* MOBILE BUTTON */}
-        <div className='w-full flex justify-center mt-5 md:hidden'>
-          <button className='bg-[#8473E8] hover:bg-[#5a3dcf] px-10 py-3 rounded-full flex items-center gap-3 text-white text-lg transition-colors duration-200'>
-            Continue
-            <span className='bg-white rounded-full p-2 flex items-center justify-center'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth={2}
-                stroke='#8473E8'
-                className='w-5 h-5'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M17 8l4 4m0 0l-4 4m4-4H3'
-                />
-              </svg>
-            </span>
+        {/* BUTTON */}
+        <div className='w-full flex justify-center mt-5'>
+          <button
+            type='submit'
+            disabled={loading}
+            className='bg-[#8473E8] hover:bg-[#5a3dcf] px-10 py-3 rounded-full flex items-center gap-3 text-white text-lg'
+          >
+            {loading ? 'Please wait...' : 'Continue'}
           </button>
         </div>
-
-        {/* TERMS */}
-        <div className='mt-4'>
-          <p className='text-center text-gray-600 text-xs px-4'>
-            By continuing, you agree to our{' '}
-            <span className='text-[#8473E8]'>Terms</span> &{' '}
-            <span className='text-[#8473E8]'>Privacy Policy</span>.
-          </p>
-
-          <p className='text-center text-gray-600 text-sm mt-1 pb-4'>
-            Already have an account?{' '}
-            <span className='text-[#8473E8] cursor-pointer'>Login</span>
-          </p>
-        </div>
-
-        {/* DESKTOP BUTTON */}
-        <div className='hidden md:flex w-full justify-center mt-4'>
-          <button className='bg-[#8473E8] hover:bg-[#5a3dcf] px-10 py-3 rounded-full flex items-center gap-3 text-white text-lg transition-colors duration-200'>
-            Continue
-            <span className='bg-white rounded-full p-2 flex items-center justify-center'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth={2}
-                stroke='#8473E8'
-                className='w-5 h-5'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M17 8l4 4m0 0l-4 4m4-4H3'
-                />
-              </svg>
-            </span>
-          </button>
-        </div>
-      </div>
+        <p className='text-center text-xs text-[#8A8A8A] mt-5'>
+          By continuing, you agree to our{' '}
+          <a className='underline hover:text-[#8E76F2]'>Terms</a> and{' '}
+          <a className='underline hover:text-[#8E76F2]'>Privacy Policy</a>
+        </p>
+        <p className='text-center text-xs text-[#8A8A8A] mt-3'>
+          Already have an account?{' '}
+          <Link to='/login' className='underline hover:text-[#8E76F2]'>
+            Login
+          </Link>
+        </p>
+      </form>
 
       {/* Desktop Video */}
-      <div className='hidden md:block fixed top-0 right-0 w-[540px] h-screen overflow-hidden z-10'>
+      <div className='hidden md:block fixed top-0 right-0 w-[540px] h-screen'>
         <video
           src='/signup.mp4'
           autoPlay
           loop
           muted
-          className='w-[540px] h-full object-cover'
+          className='w-full h-full object-cover'
         />
       </div>
     </div>

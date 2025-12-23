@@ -28,6 +28,10 @@
   line-height: normal;
 }
 
-.mobile-menu-wrapper{
+.mobile-menu-wrapper {
   z-index: 1000;
+}
+
+.toast-uppercase {
+  text-transform: uppercase;
 }

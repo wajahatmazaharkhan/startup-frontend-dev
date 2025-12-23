@@ -37,8 +37,11 @@ import {
   Signup,
   ThanksCard,
   CounsellorSignup,
+  Login,
+  ResetPasswordOTP,
 } from './pages';
 import { Footer, Navbar } from './components';
+import { ToastContainer } from 'react-toastify';
 
 const AppContent = () => {
   const location = useLocation();
@@ -49,15 +52,27 @@ const AppContent = () => {
 
   return (
     <div>
+      <ToastContainer
+        position='top-right'
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        draggable
+        toastClassName={'toast-uppercase'}
+      />
       {!hideNavbar && <Navbar />}
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/admin/login' element={<AdminLogin />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/forgot' element={<ForgotPassword />} />
-        <Route path='/verify-otp' element={<VerifyOTP />} />
+        <Route path='/verify-otp/:emailId' element={<VerifyOTP />} />
+        <Route path='/reset-password/:emailId' element={<ResetPasswordOTP />} />
         <Route path='/reset-password' element={<ResetPassword />} />
         <Route path='/counsellor/signup' element={<CounsellorSignup />} />
+        <Route path='/login' element={<Login />} />
       </Routes>
       <div>
         <Footer />

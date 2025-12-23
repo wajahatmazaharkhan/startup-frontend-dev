@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import Logo from '../../assets/Logo.png';
 import RightArrow from '../../assets/RightArrow.svg';
 import { forgotPassword } from '../../services/authService';
+import { sendOTP } from '../../services/authServiceNew';
+import { toast } from 'react-toastify';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -43,23 +45,17 @@ export default function ForgotPassword() {
     setError('');
 
     try {
-      const result = await forgotPassword(email);
+      const res = await sendOTP(email);
+      console.log('🚀 ~ handleSubmit ~ res:', res);
 
-      if (result.success) {
-        const maskedEmail = email.replace(
-          /(.{2})(.*)(@.*)/,
-          (_, start, middle, end) =>
-            start + '*'.repeat(Math.min(middle.length, 10)) + end,
-        );
-
-        sessionStorage.setItem('resetEmail', email);
-        sessionStorage.setItem('maskedEmail', maskedEmail);
-
-        navigate('/verify-otp');
+      if (res.status === 200) {
+        toast.success('OTP has been sent your email.');
+        navigate(`/reset-password/${email}`);
       } else {
-        setError(result.message || 'Something went wrong. Please try again.');
+        setError(res.message || 'Something went wrong. Please try again.');
       }
     } catch (err) {
+      toast.error(err?.response?.data?.msg);
       setError('Something went wrong. Please try again.');
     } finally {
       setSubmitting(false);
@@ -79,9 +75,9 @@ export default function ForgotPassword() {
       </div>
 
       {/* DESKTOP BRAND (TOP LEFT) */}
-      <div className='hidden lg:flex items-center gap-2 text-base font-semibold text-[#8E76F2] absolute top-6 left-6'>
+      {/* <div className='hidden lg:flex items-center gap-2 text-base font-semibold text-[#8E76F2] absolute top-6 left-6'>
         <span className='montserrat'>Safe Harbour</span>
-      </div>
+      </div> */}
 
       {/* MAIN CONTENT */}
       <div className='relative z-10 w-full max-w-[860px] flex flex-col items-center mt-16 lg:mt-40 px-6'>
@@ -99,7 +95,8 @@ export default function ForgotPassword() {
           </h1>
 
           <p className='inter text-lg text-[#8A8A8A] text-center max-w-md leading-relaxed'>
-            A code will be sent to your email to help reset password
+            Verification code will be sent to your email to get your account
+            back!
           </p>
         </div>
 

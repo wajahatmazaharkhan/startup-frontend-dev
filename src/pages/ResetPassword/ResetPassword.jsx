@@ -2,7 +2,8 @@ import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../../assets/Logo.png';
 import RightArrow from '../../assets/RightArrow.svg';
-import { resetPassword } from '../../services/authService';
+import { resetPassword } from '../../services/authServiceNew';
+import { toast } from 'react-toastify';
 
 const passwordRules = [
   { label: 'At least 8 characters', test: (v) => v.length >= 8 },
@@ -94,36 +95,25 @@ export default function ResetPassword() {
       setError('Please fix the errors above');
       return;
     }
-
-    const token = sessionStorage.getItem('resetToken');
-    if (!token) {
-      setError('Session expired. Please start over.');
-      setTimeout(() => navigate('/forgot'), 2000);
-      return;
-    }
-
     setSubmitting(true);
     setError('');
 
     try {
-      const result = await resetPassword(token, formValues.password);
-      if (result.success) {
-        sessionStorage.removeItem('resetEmail');
-        sessionStorage.removeItem('maskedEmail');
-        sessionStorage.removeItem('resetToken');
-
-        navigate('/admin/login', {
-          state: {
-            message:
-              'Password reset successfully! Please login with your new password.',
-          },
-        });
+      const result = await resetPassword(
+        formValues.password,
+        formValues.confirmPassword,
+        sessionStorage.getItem('user-email'),
+      );
+      if (result.status === 200) {
+        toast.success('Password has been Reset!');
+        navigate('/login');
       } else {
         setError(
           result.message || 'Failed to reset password. Please try again.',
         );
       }
     } catch (err) {
+      toast.error(err.response.data.message);
       setError('Something went wrong. Please try again.');
     } finally {
       setSubmitting(false);

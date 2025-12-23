@@ -10,3 +10,5 @@ export { default as ResetPassword } from './ResetPassword';
 export { default as Signup } from './Signup';
 export { default as ThanksCard } from './ThanksCard';
 export { default as CounsellorSignup } from './counsellor-signup/CounsellorSignup';
+export { default as ResetPasswordOTP } from './ResetPasswordOTP';
+export { default as Login } from './Login';

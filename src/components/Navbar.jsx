@@ -4,7 +4,7 @@ import Menu from '../assets/Menu.svg';
 import { ButtonCallToAction, Dropdown } from './index';
 import { ChevronDown } from 'lucide-react';
 import navbarItems from '../data/navbar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [display, setDisplay] = useState(false);
@@ -27,6 +27,8 @@ const Navbar = () => {
     setMobileDisplay((prev) => !prev);
   }
 
+  const navigate = useNavigate();
+
   return (
     <>
       {/* 🔹 Blur Overlay */}
@@ -38,6 +40,7 @@ const Navbar = () => {
       )}
 
       <nav
+        id='navbar'
         data-aos='fade-down'
         className='lg:m-4 mt-4 p-2 fixed top-0 left-0 w-full bg-transparent z-50'
       >
@@ -72,7 +75,11 @@ const Navbar = () => {
           </div>
 
           <div className='cta-button mr-10 hidden sm:flex'>
-            <ButtonCallToAction content='Get Started' />
+            <ButtonCallToAction
+              buttonId={'get-started'}
+              handleClick={() => navigate('/signup')}
+              content='Get Started'
+            />
           </div>
 
           {/* Mobile Menu Button */}
