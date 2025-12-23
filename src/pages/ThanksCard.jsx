@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from '../assets/Logo.png';
+import Logo from '../assets/Logo.png';
 
 
 const ThanksCard = () => {
@@ -24,7 +24,7 @@ const ThanksCard = () => {
       <div className='flex flex-col items-center text-center w-full max-w-[850px] px-2'>
         {/* Logo */}
         <img
-          src={logo}
+          src={Logo}
           alt='Logo'
           className='
             w-[45px] h-[43px] 
