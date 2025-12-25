@@ -40,15 +40,21 @@ import {
   Login,
   ResetPasswordOTP,
 } from './pages';
-import { Footer, Navbar } from './components';
+import { Footer, Navbar, DashboardNavBar } from './components';
 import { ToastContainer } from 'react-toastify';
+import { useAuthStore } from './store/auth-store.js';
+
 
 const AppContent = () => {
   const location = useLocation();
   const hideNavbar =
     location.pathname === '/admin/login' ||
     location.pathname === '/signup' ||
-    location.pathname === '/counsellor/signup';
+    location.pathname === '/counsellor/signup'||
+    location.pathname === '/dashboard' ;
+
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const toggleAuthState = useAuthStore((state) => state.toggleAuthState);
 
   return (
     <div>
@@ -62,7 +68,8 @@ const AppContent = () => {
         draggable
         toastClassName={'toast-uppercase'}
       />
-      {!hideNavbar && <Navbar />}
+      {/* {!hideNavbar && <Navbar /> */}
+      {isAuthenticated && toggleAuthState ? <DashboardNavBar /> : (!hideNavbar && <Navbar />)}
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/admin/login' element={<AdminLogin />} />
@@ -73,6 +80,8 @@ const AppContent = () => {
         <Route path='/reset-password' element={<ResetPassword />} />
         <Route path='/counsellor/signup' element={<CounsellorSignup />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/dashboard' element={<DashboardNavBar />} />
+
       </Routes>
       <div>
         <Footer />
