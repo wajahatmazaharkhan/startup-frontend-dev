@@ -10,3 +10,4 @@ export { default as Footer } from './ui/footer/Footer';
 export { default as AboutUs } from './AboutUs';
 export { default as AboutTheDoctor } from './AboutTheDoctor';
 export { default as DoctorUI } from './ui/cards/DoctorUI';
+export { default as DashboardNavBar} from "./DashboardNavBar"
