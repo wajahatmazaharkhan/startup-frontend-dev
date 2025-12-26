@@ -31,18 +31,18 @@ import 'aos/dist/aos.css';
 import {
   Home,
   AdminLogin,
+  Signup,
   ForgotPassword,
   VerifyOTP,
-  ResetPassword,
-  Signup,
-  ThanksCard,
-  CounsellorSignup,
-  Login,
   ResetPasswordOTP,
+  ResetPassword,
+  Login,
 } from './pages';
-import { Footer, Navbar, DashboardNavBar } from './components';
+import { DashboardNavBar, Navbar } from './components';
+import CounsellorSignup from './pages/counsellor-signup/CounsellorSignup';
+import { useAuthStore } from './store/auth-store';
 import { ToastContainer } from 'react-toastify';
-import { useAuthStore } from './store/auth-store.js';
+import { Footer } from 'react-day-picker';
 
 const AppContent = () => {
   const location = useLocation();
