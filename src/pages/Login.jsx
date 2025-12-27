@@ -63,7 +63,7 @@ export default function Login() {
 
       toast.dismiss(loadingToast);
 
-      if (res?.message === 'Login successful') {
+      if (res?.statusCode === 200) {
         toast.success('Login successful');
         toggleAuthState(true);
         navigate('/');
