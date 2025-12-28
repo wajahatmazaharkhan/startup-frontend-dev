@@ -28,7 +28,7 @@ export const verifyUserOtp = asyncHandler(async (email, otp) => {
 });
 
 export const verifyUserPasswordOtp = asyncHandler(async (email, otp) => {
-  const res = await api.post('/api/user/verifypasswordotp', {
+  const res = await api.post('/api/user/verify-password-otp', {
     email,
     otp,
   });
@@ -52,8 +52,13 @@ export const adminLogin = asyncHandler(async ({ email, password }) => {
   return res.data;
 });
 
-export const sendOTP = asyncHandler(async (email) => {
-  const res = await api.post(`/api/user/otp-for-password/${email}`);
+export const sendEmailVerificationOtp = asyncHandler(async (email) => {
+  const res = await api.post(`/api/user/email-verification-otp/${email}`);
+  return res;
+});
+
+export const sendPasswordResetOtp = asyncHandler(async (email) => {
+  const res = await api.post(`/api/user/password-reset-otp/${email}`);
   return res;
 });
 
@@ -63,7 +68,7 @@ export const resetPassword = asyncHandler(async (pass, confPass, email) => {
     confPass,
     email,
   });
-  const res = await api.post('/api/user/resetpassword', {
+  const res = await api.post('/api/user/reset-password', {
     Email: email,
     newPassword: confPass,
   });

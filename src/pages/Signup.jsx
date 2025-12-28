@@ -3,7 +3,10 @@ import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/style.css';
 import { toast } from 'react-toastify';
 import { z } from 'zod';
-import { signupUser } from '../services/authServiceNew';
+import {
+  sendEmailVerificationOtp,
+  signupUser,
+} from '../services/authServiceNew';
 import { Link, useNavigate } from 'react-router-dom';
 import useTitle from '../hooks/useTitle';
 import { useAuthStore } from '../store/auth-store';
@@ -180,6 +183,7 @@ const Signup = () => {
       }
 
       toast.success('Welcome! Your account is ready.');
+      await sendEmailVerificationOtp(form.email);
       setTimeout(() => navigate(`/verify-otp/${form.email}`), 2000);
     } catch (error) {
       if (error instanceof z.ZodError) {
