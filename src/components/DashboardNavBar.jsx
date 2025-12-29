@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Menu, X, Search, ChevronDown } from 'lucide-react';
+import { useAuthStore } from '../store/auth-store';
 
 function DashboardNavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('Dashboard');
   const [opensearch, setIsopensearch] = useState(false);
+  const profilePic = useAuthStore((state) => state.profilePic);
 
   return (
     <>
@@ -146,7 +148,10 @@ function DashboardNavBar() {
                   <div className='relative mr-3 flex items-center ml-1 sm:ml-2'>
                     <div className='w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full overflow-hidden border-2 border-white shadow-md'>
                       <img
-                        src='https://api.dicebear.com/7.x/avataaars/svg?seed=user'
+                        src={
+                          profilePic ||
+                          'https://api.dicebear.com/7.x/avataaars/svg?seed=user'
+                        }
                         alt='User'
                         className='w-full h-full'
                       />
@@ -161,7 +166,10 @@ function DashboardNavBar() {
             <div className='hidden md:flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity'>
               <div className='w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full overflow-hidden border-2 border-white shadow-md'>
                 <img
-                  src='https://api.dicebear.com/7.x/avataaars/svg?seed=user'
+                  src={
+                    profilePic ||
+                    'https://api.dicebear.com/7.x/avataaars/svg?seed=user'
+                  }
                   alt='User'
                   className='w-full h-full'
                 />

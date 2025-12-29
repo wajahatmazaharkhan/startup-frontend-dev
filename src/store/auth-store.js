@@ -5,7 +5,9 @@ export const useAuthStore = create(
   persist(
     (set) => ({
       authenticated: false,
+      profilePic: '',
       toggleAuthState: (value) => set({ authenticated: value }),
+      setProfilePic: (value) => set({ profilePic: value }),
     }),
     {
       name: 'auth-storage',

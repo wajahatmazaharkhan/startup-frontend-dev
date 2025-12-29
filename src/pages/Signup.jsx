@@ -10,6 +10,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import useTitle from '../hooks/useTitle';
 import { useAuthStore } from '../store/auth-store';
+import GoogleIcon from '../assets/google-icon.png';
 
 /* =======================
    ZOD VALIDATION
@@ -129,10 +130,10 @@ const CustomDropdown = ({ options, placeholder, value, onChange }) => {
 ======================= */
 const Signup = () => {
   const isAuthenticated = useAuthStore((state) => state.authenticated);
-  useTitle('Join');
+  useTitle('Signup');
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/');
+      // navigate('/');
     }
   });
   const [showCalendar, setShowCalendar] = useState(false);
@@ -193,6 +194,14 @@ const Signup = () => {
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGoogleSignup = async () => {
+    try {
+      window.location.href = `${import.meta.env.VITE_BACKEND_URL}/api/user/auth/google`;
+    } catch (error) {
+      console.error('Signup failed', error);
     }
   };
 
@@ -330,9 +339,19 @@ const Signup = () => {
           <button
             type='submit'
             disabled={loading}
-            className='bg-[#8473E8] hover:bg-[#5a3dcf] px-10 py-3 rounded-full flex items-center gap-3 text-white text-lg'
+            className='bg-[#8473E8] hover:bg-[#5a3dcf] cursor-pointer md:w-140 w-100 py-3 rounded-full flex justify-center items-center gap-3 text-white text-lg'
           >
-            {loading ? 'Please wait...' : 'Continue'}
+            {loading ? 'Please wait...' : 'Sign Up'}
+          </button>
+        </div>
+        <div className='w-full flex justify-center mt-2'>
+          <button
+            onClick={handleGoogleSignup}
+            disabled={loading}
+            className='bg-[#8473E8] hover:bg-[#5a3dcf] cursor-pointer md:w-140 py-3 w-100 rounded-full flex justify-center items-center gap-3 text-white text-lg'
+          >
+            <img className='w-7 h-7' src={GoogleIcon} alt='google-signup' />
+            Sign up with Google
           </button>
         </div>
         <p className='text-center text-xs text-[#8A8A8A] mt-5'>

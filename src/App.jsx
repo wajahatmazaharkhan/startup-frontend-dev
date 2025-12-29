@@ -37,12 +37,14 @@ import {
   ResetPasswordOTP,
   ResetPassword,
   Login,
+  Logout,
 } from './pages';
 import { DashboardNavBar, Navbar } from './components';
 import CounsellorSignup from './pages/counsellor-signup/CounsellorSignup';
 import { useAuthStore } from './store/auth-store';
 import { ToastContainer } from 'react-toastify';
 import { Footer } from 'react-day-picker';
+import { checkAuth } from './services/authServiceNew';
 
 const AppContent = () => {
   const location = useLocation();
@@ -54,10 +56,23 @@ const AppContent = () => {
 
   const isAuthenticated = useAuthStore((state) => state.authenticated);
   const toggleAuthState = useAuthStore((state) => state.toggleAuthState);
+  const setProfilePic = useAuthStore((state) => state.setProfilePic);
+  
+  //=== [Check if  Authenticated] ===//
+  const checkIfAuthenticated = async () => {
+    const res = await checkAuth();
+    console.log('🚀 ~ checkIfAuthenticated ~ res:', res);
+    if (res.statusCode === 200) {
+      toggleAuthState(true);
+      setProfilePic(res?.data?.profilePic);
+    }
+    return res;
+  };
 
   //=== [DEBUG USE-EFFECT LOG] ===//
   useEffect(() => {
     console.log('[AUTH STATE]', isAuthenticated);
+    checkIfAuthenticated();
   }, []);
 
   return (
@@ -84,6 +99,7 @@ const AppContent = () => {
         <Route path='/reset-password' element={<ResetPassword />} />
         <Route path='/counsellor/signup' element={<CounsellorSignup />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/logout' element={<Logout />} />
         <Route path='/dashboard' element={<DashboardNavBar />} />
       </Routes>
       <div>

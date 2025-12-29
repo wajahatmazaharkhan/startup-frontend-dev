@@ -19,6 +19,21 @@ export const signupUser = asyncHandler(
   },
 );
 
+export const checkAuth = asyncHandler(async () => {
+  const res = await api.get('/api/current-user');
+  console.log('🚀 ~ res:', res.data);
+  return res.data;
+});
+
+export const logoutGoogleAuth = asyncHandler(async () => {
+  const res = await api.get('/api/logout');
+  if (res.status === 200) {
+    window.location.href = '/';
+    localStorage.clear();
+  }
+  return res.data;
+});
+
 export const verifyUserOtp = asyncHandler(async (email, otp) => {
   const res = await api.post('/api/user/verify-otp', {
     email,

@@ -6,6 +6,7 @@ import Logo from '../assets/Logo.png';
 import { userLogin } from '../services/authServiceNew';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/auth-store';
+import GoogleIcon from '../assets/google-icon.png';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -50,7 +51,6 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setTouched({ email: true, password: true });
 
     if (!isFormValid || submitting) return;
 
@@ -126,7 +126,9 @@ export default function Login() {
       <div className='relative z-10 w-full lg:w-1/2 px-6 sm:px-10 lg:px-16 pt-6 lg:pt-6 pb-12 lg:pb-6 flex flex-col'>
         {/* DESKTOP BRAND */}
         <div className='hidden lg:flex items-center gap-2 text-base font-semibold text-[#8E76F2] mb-8'>
-          <span className='montserrat'>Safe Harbour</span>
+          <Link to='/'>
+            <span className='montserrat cursor-pointer'>Safe Harbour</span>
+          </Link>
         </div>
 
         {/* CENTER CONTENT */}
@@ -212,7 +214,7 @@ export default function Login() {
                   type='submit'
                   disabled={!isFormValid || submitting}
                   className='group flex items-center justify-center gap-3 rounded-full
-                  bg-gradient-to-r from-[#8E76F2] to-[#B28AF9] h-12 lg:h-[56px] w-[200px] lg:w-[260px]
+                  bg-linear-to-r from-[#8E76F2] to-[#B28AF9] h-12 lg:h-14 w-[200px] lg:w-[500px]
                   text-white font-medium text-base montserrat
                   hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed
                   transition-opacity shadow-lg'
@@ -220,6 +222,20 @@ export default function Login() {
                   {submitting ? 'Please wait...' : 'Continue'}
                   <span className='grid h-8 w-8 place-items-center rounded-full bg-white text-[#8E76F2]'>
                     <img src={RightArrow} alt='' className='h-4 w-4' />
+                  </span>
+                </button>
+                <button
+                  type='submit'
+                  disabled={!isFormValid || submitting}
+                  className='group flex items-center justify-center gap-3 rounded-full mx-2 text-nowrap
+                  bg-linear-to-r from-[#8E76F2] to-[#B28AF9] h-12 lg:h-14 w-[200px] lg:w-[500px]
+                  text-white font-medium text-xs md:text-base px-2 montserrat
+                  hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed
+                  transition-opacity shadow-lg'
+                >
+                  {submitting ? 'Please wait...' : 'Log in with Google'}
+                  <span className='grid h-8 w-8 place-items-center rounded-full bg-white text-[#8E76F2]'>
+                    <img src={GoogleIcon} alt='' className='h-4 w-4' />
                   </span>
                 </button>
               </div>
