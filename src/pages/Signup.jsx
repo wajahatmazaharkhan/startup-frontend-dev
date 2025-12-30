@@ -346,7 +346,7 @@ const Signup = () => {
         </div>
         <div className='w-full flex justify-center mt-2'>
           <button
-            onClick={handleGoogleSignup}
+            onClick={() => handleGoogleSignup()}
             disabled={loading}
             className='bg-[#8473E8] hover:bg-[#5a3dcf] cursor-pointer md:w-140 py-3 w-100 rounded-full flex justify-center items-center gap-3 text-white text-lg'
           >

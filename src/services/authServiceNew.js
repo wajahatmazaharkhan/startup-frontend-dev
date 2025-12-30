@@ -1,6 +1,7 @@
 import { toast } from 'react-toastify';
 import { asyncHandler } from '../utils/async-handler';
 import api from './apiClient';
+import { useAuthStore } from '../store/auth-store';
 
 export const signupUser = asyncHandler(
   async (fullname, email, password, phone, dob, gender, timezone, language) => {
@@ -25,7 +26,7 @@ export const checkAuth = asyncHandler(async () => {
   return res.data;
 });
 
-export const logoutGoogleAuth = asyncHandler(async () => {
+export const logout = asyncHandler(async () => {
   const res = await api.get('/api/logout');
   if (res.status === 200) {
     window.location.href = '/';

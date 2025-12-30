@@ -111,6 +111,14 @@ export default function Login() {
     }
   }, [isAuthenticated]);
 
+  const handleGoogleLogin = async () => {
+    try {
+      window.location.href = `${import.meta.env.VITE_BACKEND_URL}/api/user/auth/google`;
+    } catch (error) {
+      console.error('Signup failed', error);
+    }
+  };
+
   return (
     <div
       data-aos='fade-right'
@@ -212,8 +220,8 @@ export default function Login() {
               <div className='flex justify-center'>
                 <button
                   type='submit'
-                  disabled={!isFormValid || submitting}
-                  className='group flex items-center justify-center gap-3 rounded-full
+                  disabled={submitting}
+                  className='group cursor-pointer flex items-center justify-center gap-3 rounded-full
                   bg-linear-to-r from-[#8E76F2] to-[#B28AF9] h-12 lg:h-14 w-[200px] lg:w-[500px]
                   text-white font-medium text-base montserrat
                   hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed
@@ -225,9 +233,10 @@ export default function Login() {
                   </span>
                 </button>
                 <button
-                  type='submit'
-                  disabled={!isFormValid || submitting}
-                  className='group flex items-center justify-center gap-3 rounded-full mx-2 text-nowrap
+                  type='google-login'
+                  onClick={() => handleGoogleLogin()}
+                  disabled={submitting}
+                  className='group cursor-pointer flex items-center justify-center gap-3 rounded-full mx-2 text-nowrap
                   bg-linear-to-r from-[#8E76F2] to-[#B28AF9] h-12 lg:h-14 w-[200px] lg:w-[500px]
                   text-white font-medium text-xs md:text-base px-2 montserrat
                   hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed

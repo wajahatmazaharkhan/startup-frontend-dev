@@ -21,7 +21,7 @@ import {
 } from 'react-router-dom';
 import './App.css';
 import AOS from 'aos';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import 'aos/dist/aos.css';
 
 ////////////////////////////////////////
@@ -44,7 +44,7 @@ import CounsellorSignup from './pages/counsellor-signup/CounsellorSignup';
 import { useAuthStore } from './store/auth-store';
 import { ToastContainer } from 'react-toastify';
 import { Footer } from 'react-day-picker';
-import { checkAuth } from './services/authServiceNew';
+import axios from 'axios';
 
 const AppContent = () => {
   const location = useLocation();
@@ -57,26 +57,41 @@ const AppContent = () => {
   const isAuthenticated = useAuthStore((state) => state.authenticated);
   const toggleAuthState = useAuthStore((state) => state.toggleAuthState);
   const setProfilePic = useAuthStore((state) => state.setProfilePic);
-
-  //=== [Check if  Authenticated] ===//
-  const checkIfAuthenticated = async () => {
-    const res = await checkAuth();
-
-    if (res.statusCode === 200) {
-      setProfilePic(res?.data?.profilePic);
-      toggleAuthState((prev) => {
-        if (prev === true) return prev;
-        return true;
-      });
-    }
-
-    return res;
-  };
+  const setFullName = useAuthStore((state) => state.setFullName);
+  const setUserEmail = useAuthStore((state) => state.setClientEmail);
 
   //=== [DEBUG USE-EFFECT LOG] ===//
   useEffect(() => {
     console.log('[AUTH STATE]', isAuthenticated);
-    checkIfAuthenticated();
+    // check if authenticated
+    const checkAuth = async () => {
+      const res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/current-user`,
+      );
+      const userData = res?.data?.data;
+      setFullName(userData?.fullname);
+      setUserEmail(userData?.email);
+      setProfilePic(userData?.profilePic);
+      if (res.status === 200) {
+        toggleAuthState(true);
+      }
+      return res;
+    };
+    // check google auth
+    const checkEmailAuth = async () => {
+      const res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/user/info`,
+      );
+      console.log('🚀 ~ checkEmailAuth ~ res:', res);
+    };
+    if (!isAuthenticated) {
+      // Check if user is authenticated with google
+      const res = checkAuth();
+      if (res.status !== 200) {
+        // Check if user is authenticated with email & password
+        checkEmailAuth();
+      }
+    }
   }, []);
 
   return (
