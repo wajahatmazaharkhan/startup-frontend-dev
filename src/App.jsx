@@ -39,6 +39,7 @@ import {
   Login,
   Services,
   Logout,
+  NotificationPage,
 } from './pages';
 import { DashboardNavBar, Navbar } from './components';
 import CounsellorSignup from './pages/counsellor-signup/CounsellorSignup';
@@ -48,6 +49,7 @@ import CounsellorProfile from './pages/counsellor-Profile/CounsellorProfile.jsx'
 import { Footer } from 'react-day-picker';
 import axios from 'axios';
 import CounsellorsGrid from './pages/Counsellor';
+
 
 const AppContent = () => {
   const location = useLocation();
@@ -129,6 +131,7 @@ const AppContent = () => {
         <Route path='/services' element={<Services />} />
         <Route path='/logout' element={<Logout />} />
         <Route path='/counsellor' element={<CounsellorsGrid />} />
+        <Route path='/notifications' element={<NotificationPage />} />
       </Routes>
       <div>
         {' '}

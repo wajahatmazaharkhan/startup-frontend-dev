@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Menu, X, Search, ChevronDown } from 'lucide-react';
+import { Menu, X, Search, ChevronDown, Bell } from 'lucide-react'; // Import Bell
 import { useAuthStore } from '../store/auth-store';
 import { logout } from '../services/authServiceNew';
 import { Link } from 'react-router-dom';
 import Logo from '../../public/Logo.png';
+
 
 // const [cookies] = useCookies(["authToken"]);// usecookie
 
@@ -146,6 +147,13 @@ function DashboardNavBar() {
                       {activeTab}
                     </span>
                   </div>
+                  {/* Notification Icon Mobile */}
+                    <Link 
+                      to="/notifications" 
+                      className="p-1 mr-3 sm:p-1.5 border-2 border-purple-300 rounded-full hover:bg-gray-50 flex items-center justify-center"
+                    >
+                      <Bell className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-700" />
+                    </Link>
 
                   {/* Search Icon */}
                   <button
@@ -182,6 +190,13 @@ function DashboardNavBar() {
             </div>
 
             {/* Desktop User Avatar - Hidden on Mobile */}
+            {/* Notification Bell Icon - Desktop */}
+            <Link 
+              to="/notifications" 
+              className="hidden md:flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-colors mr-2"
+            >
+              <Bell className="w-5 h-5 text-gray-600" />
+            </Link>
             <div
               onClick={() => setopenUser(!openUser)}
               className='hidden md:flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity'
