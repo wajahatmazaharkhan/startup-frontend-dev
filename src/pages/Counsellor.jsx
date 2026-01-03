@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
 import { counsellorService } from '../services/dashboardService.js';
+import { cousellorServiceByEmail } from "../services/dashboardService.js"
+import { useNavigate } from 'react-router-dom';
+
+
 
 const socialLinks = [
   { id: 1, icon: 'https://cdn-icons-png.flaticon.com/512/174/174848.png', link: '#' },
@@ -8,9 +12,27 @@ const socialLinks = [
   { id: 4, icon: 'https://cdn-icons-png.flaticon.com/512/5968/5968830.png', link: '#' },
 ];
 
+
+
 const CounsellorCard = ({ counsellor }) => {
+
+
+  const navigate = useNavigate();
+
+  const handleCounsellorEmail = async (email) => {
+    try {
+      const res = await cousellorServiceByEmail(email);
+
+      navigate(`/counsellor/profile/${email}`, {
+        state: { counsellor: res.data }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <div className='relative w-[201px] h-[251px] md:w-[280px] md:h-[350px] lg:w-[300px] lg:h-[375px]'>
+    <div onClick={() => handleCounsellorEmail(counsellor.email)} className='relative w-[201px] h-[251px] md:w-[280px] md:h-[350px] lg:w-[300px] lg:h-[375px]'>
       <img
         src={counsellor.documents?.profile_picture || 'https://via.placeholder.com/400x500'}
         alt={counsellor.fullname}

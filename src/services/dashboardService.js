@@ -14,3 +14,9 @@ export const counsellorService = asyncHandler(async (slug) => {
   console.log(res.data)
   return res.data;
 });
+
+export const cousellorServiceByEmail = asyncHandler(async (email) => {
+  const res = await api.get(`/api/counsellor/getcounsellorbyemail/${email}`);
+  console.log(res.data);
+  return res.data ;
+})
