@@ -11,13 +11,13 @@ export const otherIcons = [
   },
   {
     id: 2,
-    name: 'Voice',
+    name: 'audio',
     icon: iconMic,
     link: '#',
   },
   {
     id: 3,
-    name: 'Gmail',
+    name: 'video',
     icon: iconVideo,
     link: '#',
   },

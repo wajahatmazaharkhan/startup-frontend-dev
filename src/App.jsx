@@ -123,7 +123,7 @@ const AppContent = () => {
         <Route path='/reset-password/:emailId' element={<ResetPasswordOTP />} />
         <Route path='/reset-password' element={<ResetPassword />} />
         <Route path='/counsellor/signup' element={<CounsellorSignup />} />
-        <Route path='/counsellor/profile' element={<CounsellorProfile />} />
+        <Route path='/counsellor/profile/:email' element={<CounsellorProfile />} />
 
         <Route path='/login' element={<Login />} />
         <Route path='/services' element={<Services />} />
