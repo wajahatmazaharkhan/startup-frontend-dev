@@ -21,7 +21,7 @@ import {
 } from 'react-router-dom';
 import './App.css';
 import AOS from 'aos';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import 'aos/dist/aos.css';
 
 ////////////////////////////////////////
@@ -44,7 +44,6 @@ import { DashboardNavBar, Navbar } from './components';
 import CounsellorSignup from './pages/counsellor-signup/CounsellorSignup';
 import { useAuthStore } from './store/auth-store';
 import { ToastContainer } from 'react-toastify';
-import { useAuthStore } from './store/auth-store.js';
 import CounsellorProfile from './pages/counsellor-Profile/CounsellorProfile.jsx';
 import { Footer } from 'react-day-picker';
 import axios from 'axios';
@@ -113,8 +112,8 @@ const AppContent = () => {
         draggable
         toastClassName={'toast-uppercase'}
       />
-      {/* {!hideNavbar && <Navbar /> */}
-      {/* {isAuthenticated ? <DashboardNavBar /> : !hideNavbar && <Navbar />} */}
+      {/* {!hideNavbar && <Navbar />} */}
+      {isAuthenticated ? <DashboardNavBar /> : !hideNavbar && <Navbar />}
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/admin/login' element={<AdminLogin />} />
@@ -131,7 +130,10 @@ const AppContent = () => {
         <Route path='/logout' element={<Logout />} />
         <Route path='counsellor' element={<CounsellorsGrid />} />
       </Routes>
-      <div>{/* <Footer /> */}</div>
+      <div>
+        {' '}
+        <Footer />{' '}
+      </div>
     </div>
   );
 };
