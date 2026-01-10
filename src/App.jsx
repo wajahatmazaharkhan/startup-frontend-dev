@@ -49,6 +49,7 @@ import CounsellorProfile from './pages/counsellor-Profile/CounsellorProfile.jsx'
 import { Footer } from 'react-day-picker';
 import axios from 'axios';
 import CounsellorsGrid from './pages/Counsellor';
+import Spinner from './components/ui/Spinner.jsx';
 
 const AppContent = () => {
   const location = useLocation();
