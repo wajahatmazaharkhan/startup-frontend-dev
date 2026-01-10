@@ -24,9 +24,7 @@ api.interceptors.response.use(
       // Clear local user state
       localStorage.clear();
       // Redirect to login
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      window.location.href = '/';
     }
     return Promise.reject(error);
   },
