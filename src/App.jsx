@@ -64,52 +64,37 @@ const AppContent = () => {
   const setFullName = useAuthStore((state) => state.setFullName);
   const setUserEmail = useAuthStore((state) => state.setClientEmail);
   const token = useAuthStore((state) => state.secureToken);
-  //=== [DEBUG USE-EFFECT LOG] ===//
+
   useEffect(() => {
-    console.log('[AUTH STATE]', isAuthenticated);
-    if (!token) return;
-    // check if authenticated
-    const checkAuth = async () => {
-      const res = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/current-user`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      const userData = res?.data?.data;
-      setFullName(userData?.fullname);
-      setUserEmail(userData?.email);
-      setProfilePic(userData?.profilePic);
-      if (res.status === 200) {
-        toggleAuthState(true);
-      }
-      return res;
-    };
-    // check google auth
-    const checkEmailAuth = async () => {
-      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/info`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log('🚀 ~ checkEmailAuth ~ res:', res);
-    };
-    const run = async () => {
+    if (!token) {
+      toggleAuthState(false);
+      return;
+    }
+
+    const fetchUser = async () => {
       try {
-        const res = await checkAuth();
-        console.log('🚀 ~ run ~ res:', res);
-      } catch {
-        try {
-          const res = checkEmailAuth();
-          console.log('🚀 ~ run ~ res:', res);
-        } catch {
-          toggleAuthState(false);
-        }
+        const res = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/user/info`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        const user = res.data.data;
+
+        setFullName(user.fullname);
+        setUserEmail(user.email);
+        setProfilePic(user.profilePic || null);
+        toggleAuthState(true);
+      } catch (err) {
+        console.error('Auth check failed:', err);
+        toggleAuthState(false);
       }
     };
-    run();
+
+    fetchUser();
   }, [token]);
 
   return (

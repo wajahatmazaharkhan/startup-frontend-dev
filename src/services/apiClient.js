@@ -19,12 +19,8 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      // Token expired or invalid
-      toast.info('Session expired, logging out...');
-      // Clear local user state
+      // silent logout
       localStorage.clear();
-      // Redirect to login
-      window.location.href = '/';
     }
     return Promise.reject(error);
   },
