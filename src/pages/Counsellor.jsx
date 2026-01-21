@@ -19,17 +19,21 @@ const CounsellorCard = ({ counsellor }) => {
 
   const navigate = useNavigate();
 
-  const handleCounsellorEmail = async (email) => {
-    try {
-      const res = await cousellorServiceByEmail(email);
+const handleCounsellorEmail = async (email) => {
+  try {
+    const res = await cousellorServiceByEmail(email);
 
-      navigate(`/counsellor/profile/${email}`, {
-        state: { counsellor: res.data }
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    // ✅ CORRECT - no email in URL, only in state
+    navigate('/counsellor/profile', {
+      state: { 
+        email: email,
+        counsellor: res.data 
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   return (
     <div onClick={() => handleCounsellorEmail(counsellor.email)} className='relative w-[201px] h-[251px] md:w-[280px] md:h-[350px] lg:w-[300px] lg:h-[375px]'>

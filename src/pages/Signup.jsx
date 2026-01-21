@@ -75,7 +75,7 @@ const CustomDropdown = ({ options, placeholder, value, onChange }) => {
         aria-expanded={open}
         onClick={() => setOpen(!open)}
         onKeyDown={(e) => e.key === 'Enter' && setOpen(!open)}
-        className='px-3 py-2 border rounded-lg cursor-pointer w-full flex justify-between items-center overflow-hidden'
+        className='px-3 py-2 border rounded-lg cursor-pointer w-full flex justify-between items-center scroll-auto '
         style={{
           color: isPlaceholder ? '#8473E8' : 'black',
           fontWeight: isPlaceholder ? 400 : 500,
@@ -225,7 +225,7 @@ const Signup = () => {
       {/* FORM CONTAINER */}
       <form
         onSubmit={handleSubmit}
-        className='absolute top-[200px] left-1/2 md:left-[158px] w-[90%] md:w-[584px] h-[608px]
+        className='absolute top-[100px] left-1/2 md:left-[158px] w-[90%] md:w-[584px] h-[608px]
         bg-[#FFFFFF8A] md:rounded-[10px] rounded-[5px] p-4 md:p-5 transform -translate-x-1/2 md:translate-x-0'
       >
         {/* LOGO */}
@@ -356,8 +356,8 @@ const Signup = () => {
         </div>
         <p className='text-center text-xs text-[#8A8A8A] mt-5'>
           By continuing, you agree to our{' '}
-          <a className='underline hover:text-[#8E76F2]'>Terms</a> and{' '}
-          <a className='underline hover:text-[#8E76F2]'>Privacy Policy</a>
+          <a className='underline hover:cursor-pointer hover:text-[#8E76F2]'>Terms</a> and{' '}
+          <a className='underline hover:cursor-pointer hover:text-[#8E76F2]'>Privacy Policy</a>
         </p>
         <p className='text-center text-xs text-[#8A8A8A] mt-3'>
           Already have an account?{' '}

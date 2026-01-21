@@ -141,17 +141,14 @@ const AppContent = () => {
         <Route path='/chat' element={<Chat />} />
         <Route path='/calls' element={<Calls />} />
         <Route element={<ProtectedRoute />}>
-          <Route path='/services' element={<Services />} />
-          <Route path='/logout' element={<Logout />} />
-          <Route
-            path='/counsellor/profile/:email'
-            element={<CounsellorProfile />}
-          />
-          <Route path='/counsellor' element={<CounsellorsGrid />} />
-          <Route path='/razorpay-temporary' element={<RazorpayTemporary />} />
-          <Route path='/updateprofile' element={<UpdateProfilePage />} />
-          <Route path='/privacy-policy' element={<PrivacyPolicy />} />
-          <Route path='/terms-and-conditions' element={<TermsConditions />} />
+        <Route path='/services' element={<Services />} />
+        <Route path='/logout' element={<Logout />} />
+        <Route path='/counsellor/profile' element={<CounsellorProfile />} />
+        <Route path='/counsellor' element={<CounsellorsGrid />} />
+        <Route path='/razorpay-temporary' element={<RazorpayTemporary />} />
+        <Route path='/updateprofile' element={<UpdateProfilePage />} />
+        <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+        <Route path='/terms-and-conditions' element={<TermsConditions />} />
         </Route>
         <Route path='/verify-token' element={<CaptureToken />} />
       </Routes>
@@ -161,6 +158,7 @@ const AppContent = () => {
     </div>
   );
 };
+
 
 // ================= ROOT APP ================= //
 const App = () => {
