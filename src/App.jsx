@@ -142,7 +142,7 @@ const AppContent = () => {
         <Route element={<ProtectedRoute />}>
         <Route path='/services' element={<Services />} />
         <Route path='/logout' element={<Logout />} />
-        <Route path='/counsellor/profile/:email' element={<CounsellorProfile />} />
+        <Route path='/counsellor/profile' element={<CounsellorProfile />} />
         <Route path='/counsellor' element={<CounsellorsGrid />} />
         <Route path='/razorpay-temporary' element={<RazorpayTemporary />} />
         <Route path='/updateprofile' element={<UpdateProfilePage />} />
@@ -152,6 +152,7 @@ const AppContent = () => {
     </div>
   );
 };
+
 
 // ================= ROOT APP ================= //
 const App = () => {

@@ -8,11 +8,13 @@ import CounsellorPageMedia from './components/CounsellorPageMedia';
 import CounsellorPricingSection from './components/CounsellorPricingSection';
 import BackNavigation from '../../assets/BackNavigation.svg';
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { cousellorServiceByEmail } from '../../services/dashboardService';
 
 function CounsellorProfile() {
-  const { email } = useParams();
+const location = useLocation();
+const email = location.state?.email;
   const [counsellorData, setCounsellorData] = useState(null);
   const [loading, setLoading] = useState(true);
 
