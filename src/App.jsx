@@ -29,6 +29,8 @@ import {
   Services,
   Logout,
   RazorpayTemporary,
+  PrivacyPolicy,
+  TermsConditions,
 } from './pages';
 
 import CounsellorSignup from './pages/counsellor-signup/CounsellorSignup';
@@ -40,13 +42,12 @@ import UpdateProfilePage from './pages/UpdateProfilePage.jsx';
 import Chat from './pages/Chat.jsx';
 
 // =================== Components =================== //
-import { CaptureToken, DashboardNavBar, Navbar } from './components';
+import { CaptureToken, DashboardNavBar, Footer, Navbar } from './components';
 
 // =================== Store =================== //
 import { useAuthStore } from './store/auth-store';
 import ProtectedRoute from './utils/ProtectedRoute.jsx';
 import Calls from './pages/Calls.jsx';
-
 
 const AppContent = () => {
   const location = useLocation();
@@ -86,7 +87,7 @@ const AppContent = () => {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         );
 
         const user = res.data?.data;
@@ -140,15 +141,23 @@ const AppContent = () => {
         <Route path='/chat' element={<Chat />} />
         <Route path='/calls' element={<Calls />} />
         <Route element={<ProtectedRoute />}>
-        <Route path='/services' element={<Services />} />
-        <Route path='/logout' element={<Logout />} />
-        <Route path='/counsellor/profile/:email' element={<CounsellorProfile />} />
-        <Route path='/counsellor' element={<CounsellorsGrid />} />
-        <Route path='/razorpay-temporary' element={<RazorpayTemporary />} />
-        <Route path='/updateprofile' element={<UpdateProfilePage />} />
+          <Route path='/services' element={<Services />} />
+          <Route path='/logout' element={<Logout />} />
+          <Route
+            path='/counsellor/profile/:email'
+            element={<CounsellorProfile />}
+          />
+          <Route path='/counsellor' element={<CounsellorsGrid />} />
+          <Route path='/razorpay-temporary' element={<RazorpayTemporary />} />
+          <Route path='/updateprofile' element={<UpdateProfilePage />} />
+          <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+          <Route path='/terms-and-conditions' element={<TermsConditions />} />
         </Route>
         <Route path='/verify-token' element={<CaptureToken />} />
       </Routes>
+      <div>
+        <Footer />
+      </div>
     </div>
   );
 };
