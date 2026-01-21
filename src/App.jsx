@@ -139,7 +139,6 @@ const AppContent = () => {
         <Route path='/counsellor/signup' element={<CounsellorSignup />} />
         <Route path='/chat' element={<Chat />} />
         <Route path='/calls' element={<Calls />} />
-
         <Route element={<ProtectedRoute />}>
         <Route path='/services' element={<Services />} />
         <Route path='/logout' element={<Logout />} />
