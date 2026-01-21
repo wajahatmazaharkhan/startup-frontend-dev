@@ -35,6 +35,7 @@ import CounsellorSignup from './pages/counsellor-signup/CounsellorSignup';
 import CounsellorProfile from './pages/counsellor-Profile/CounsellorProfile.jsx';
 import CounsellorsGrid from './pages/Counsellor';
 import UpdateProfilePage from './pages/UpdateProfilePage.jsx';
+import Chat from './pages/Chat.jsx';
 
 // =================== Components =================== //
 import { CaptureToken, DashboardNavBar, Navbar } from './components';
@@ -42,6 +43,7 @@ import { CaptureToken, DashboardNavBar, Navbar } from './components';
 // =================== Store =================== //
 import { useAuthStore } from './store/auth-store';
 import ProtectedRoute from './utils/ProtectedRoute.jsx';
+import Calls from './pages/Calls.jsx';
 
 // ================================================= //
 
@@ -134,6 +136,8 @@ const AppContent = () => {
         <Route path='/reset-password' element={<ResetPassword />} />
         <Route path='/login' element={<Login />} />
         <Route path='/counsellor/signup' element={<CounsellorSignup />} />
+        <Route path='/chat' element={<Chat />} />
+        <Route path='/calls' element={<Calls />} />
 
         <Route element={<ProtectedRoute />}>
         <Route path='/services' element={<Services />} />
