@@ -34,6 +34,8 @@ import {
 import CounsellorSignup from './pages/counsellor-signup/CounsellorSignup';
 import CounsellorProfile from './pages/counsellor-Profile/CounsellorProfile.jsx';
 import CounsellorsGrid from './pages/Counsellor';
+
+import Spinner from './components/ui/Spinner.jsx';
 import UpdateProfilePage from './pages/UpdateProfilePage.jsx';
 import Chat from './pages/Chat.jsx';
 
@@ -45,7 +47,6 @@ import { useAuthStore } from './store/auth-store';
 import ProtectedRoute from './utils/ProtectedRoute.jsx';
 import Calls from './pages/Calls.jsx';
 
-// ================================================= //
 
 const AppContent = () => {
   const location = useLocation();
@@ -145,9 +146,9 @@ const AppContent = () => {
         <Route path='/counsellor/profile/:email' element={<CounsellorProfile />} />
         <Route path='/counsellor' element={<CounsellorsGrid />} />
         <Route path='/razorpay-temporary' element={<RazorpayTemporary />} />
-        <Route path='/verify-token' element={<CaptureToken />} />
         <Route path='/updateprofile' element={<UpdateProfilePage />} />
         </Route>
+        <Route path='/verify-token' element={<CaptureToken />} />
       </Routes>
     </div>
   );

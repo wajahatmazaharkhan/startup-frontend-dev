@@ -7,7 +7,7 @@ import { otherIcons } from '../../../data/otherIcon';
 function CounsellorPageMedia({ sessionTypes }) {
 
   const filteredIcons = otherIcons.filter((ele) =>
-    sessionTypes.includes(ele.name.toLowerCase())
+    sessionTypes?.includes(ele.name.toLowerCase())
   );
 
   return (
