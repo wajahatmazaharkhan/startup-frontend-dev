@@ -1,58 +1,89 @@
 import React from 'react';
 import Logo from '../../../assets/Logo.png';
 import { socialLinks } from '../../../data/social';
-import { ArrowDown, ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className='w-full pb-8 pt-4'>
-      <div className='container mx-auto px-6 '>
-        {/* MAIN GRAY CARD */}
-        <div className='flex flex-col items-center justify-center rounded-2xl bg-gray-100 py-16 text-center'>
-          <div className='mb-6'>
-            <img src={Logo} alt='logo' className='h-8 w-8' />
+    <footer className='w-full bg-white pt-10 pb-6'>
+      <div className='container mx-auto px-6'>
+        {/* MAIN FOOTER CARD */}
+        <div className='rounded-2xl bg-gray-100 px-6 py-14 md:px-12'>
+          {/* TOP */}
+          <div className='flex flex-col items-center text-center'>
+            {/* LOGO */}
+            <img
+              src={Logo}
+              alt='Safe Harbour logo'
+              className='h-10 w-10 mb-4'
+            />
+
+            {/* BRAND TAGLINE */}
+            <p className='text-sm text-gray-600 max-w-md'>
+              Safe Harbour Pvt Ltd is committed to delivering secure,
+              personalized, and reliable healthcare services you can trust.
+            </p>
           </div>
 
-          {/* Links */}
-          <div className='mb-8 flex gap-8 font-medium text-gray-700'>
-            <a href='/' className='hover:text-purple-600'>
+          {/* NAV LINKS */}
+          <div className='mt-10 flex flex-wrap justify-center gap-x-10 gap-y-4 text-sm font-medium text-gray-700'>
+            <a href='/' className='hover:text-purple-600 transition'>
               Home
             </a>
-            <a href='/about' className='hover:text-purple-600'>
+            <a href='/about' className='hover:text-purple-600 transition'>
               About
             </a>
             <a
               href='/services'
-              className='flex items-center justify-center gap-1 hover:text-purple-500'
+              className='flex items-center gap-1 hover:text-purple-600 transition'
             >
               Services <ChevronDown size={14} />
             </a>
+            <a
+              href='/privacy-policy'
+              className='hover:text-purple-600 transition'
+            >
+              Privacy Policy
+            </a>
+            <a
+              href='/terms-and-conditions'
+              className='hover:text-purple-600 transition'
+            >
+              Terms & Conditions
+            </a>
           </div>
 
-          {/* Social Icons */}
-          <div className='flex gap-6'>
-            {socialLinks.map((social) => (
-              <a
-                key={social.id}
-                href={social.link}
-                target='_blank'
-                rel='noreferrer'
-                className='hover:opacity-75 transition-opacity'
-                aria-label={social.name}
-              >
-                <img
-                  src={social.icon}
-                  alt={social.name}
-                  className='md:h-8 md:w-8 h-6 w-6 object-contain'
-                />
-              </a>
-            ))}
-          </div>
-        </div>
+          {/* DIVIDER */}
+          <div className='my-10 h-px w-full bg-gray-200' />
 
-        {/* COPYRIGHT BAR */}
-        <div className='mt-4 w-full rounded-xl bg-gray-100 py-3 text-center text-sm text-gray-600'>
-          Copyright 2025 @ SafeHarbor
+          {/* BOTTOM */}
+          <div className='flex flex-col md:flex-row items-center justify-between gap-6'>
+            {/* SOCIAL ICONS */}
+            <div className='flex gap-5'>
+              {socialLinks.map((social) => (
+                <a
+                  key={social.id}
+                  href={social.link}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  aria-label={social.name}
+                  className='transition-opacity hover:opacity-70'
+                >
+                  <img
+                    src={social.icon}
+                    alt={social.name}
+                    className='h-6 w-6 md:h-7 md:w-7 object-contain'
+                  />
+                </a>
+              ))}
+            </div>
+
+            {/* COPYRIGHT */}
+            <p className='text-xs md:text-sm text-gray-600 text-center'>
+              © {new Date().getFullYear()} Safe Harbour Pvt Ltd. All rights
+              reserved.
+            </p>
+          </div>
         </div>
       </div>
     </footer>

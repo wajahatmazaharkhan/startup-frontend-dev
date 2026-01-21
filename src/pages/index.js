@@ -15,3 +15,5 @@ export { default as Login } from './Login';
 export { default as Services } from './Services';
 export { default as Logout } from './Logout';
 export { default as RazorpayTemporary } from './RazorpayTemporary';
+export { default as PrivacyPolicy } from './PrivacyPolicy';
+export { default as TermsConditions } from './TermsConditions';
