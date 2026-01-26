@@ -13,8 +13,8 @@ import { useLocation } from 'react-router-dom';
 import { cousellorServiceByEmail } from '../../services/dashboardService';
 
 function CounsellorProfile() {
-const location = useLocation();
-const email = location.state?.email;
+  const location = useLocation();
+  const email = location.state?.email;
   const [counsellorData, setCounsellorData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -38,19 +38,22 @@ const email = location.state?.email;
 
   return (
     <div className='px-5 sm:px-10 md:px-15 lg:px-18 xl:px-20 mt-5'>
-      <Link to='/counsellor' >
-      <button className='mb-3.5 hover:cursor-pointer sm:mb-4'>
-        <img src={BackNavigation} alt='backArrow icon' className='w-[15px] sm:w-[30px]' />
-      </button>
+      <Link to='/counsellor'>
+        <button className='mb-3.5 hover:cursor-pointer sm:mb-4'>
+          <img
+            src={BackNavigation}
+            alt='backArrow icon'
+            className='w-[15px] sm:w-[30px]'
+          />
+        </button>
       </Link>
       <div className='flex flex-col gap-5 sm:gap-13 mb-2'>
         <div className='flex flex-col sm:flex-row gap-6 w-full'>
           <div className='w-full sm:w-[60%]'>
-
             {/* 👇 SAME COMPONENT, REAL DATA */}
             <CounsellorProfileHeader
               profiledata={{
-                profileImage : counsellorData.documents.profile_picture,
+                profileImage: counsellorData.documents.profile_picture,
                 name: counsellorData.fullname,
                 isVerified: counsellorData.Admin_approved,
                 specialization: counsellorData.counselling_type,
@@ -58,7 +61,7 @@ const email = location.state?.email;
                 clientsHelped: 0, // backend doesn’t have this yet
                 rating: counsellorData.rating,
                 reviewsCount: counsellorData.rating_count,
-                acceptingNewClients: counsellorData.status === "active",
+                acceptingNewClients: counsellorData.status === 'active',
               }}
             />
           </div>
@@ -68,7 +71,6 @@ const email = location.state?.email;
 
         <div className='flex flex-col sm:flex-row gap-10'>
           <div className='flex flex-col gap-7.5 sm:w-[60%]'>
-
             <Shortbio bioPoints={counsellorData.bio} />
 
             <CounsellorPricingSection
@@ -81,7 +83,6 @@ const email = location.state?.email;
                 },
               ]}
             />
-
           </div>
 
           <div className='mx-auto sm:mx-0'>
