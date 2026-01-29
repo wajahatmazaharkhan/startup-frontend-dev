@@ -3,6 +3,17 @@ import MiniDashboard from './components/MiniDashboard';
 import UpcomingSession from './components/UpcomingSession';
 import Alerts from './components/Alerts';
 import RecentSessions from './components/RecentSessions';
+import UniversalLoader from './components/UniversalLoader';
+import ECGLoader from './components/UniversalLoader';
+import CapsuleLoader from './components/UniversalLoader';
+import AdvancedCapsuleLoader from './components/UniversalLoader';
+import BrandCapsuleLoader from './components/UniversalLoader';
+import HourglassLoader from './components/UniversalLoader';
+import UniversalDotsLoader from './components/UniversalLoader';
+import HeartbeatLoader from './components/UniversalLoader';
+import CenterHeartbeatLoader from './components/UniversalLoader';
+import Calendar from './components/Calendar';
+import Calendar1 from './components/Calenda1';
 
 function UserDashboard() {
   return (
@@ -15,10 +26,13 @@ function UserDashboard() {
     //   <div className='bg-sky-300 col-span-2 row-span-1'>Recent sessions</div>
     // </div>
     <>
-      <MiniDashboard />
-      <UpcomingSession />
-      <Alerts />
-      <RecentSessions />
+      {/* <MiniDashboard /> */}
+      {/* <UpcomingSession /> */}
+      {/* <Alerts /> */}
+      {/* <RecentSessions /> */}
+      {/* <HeartbeatLoader /> */}
+      {/* <Calendar /> */}
+      <Calendar1 />
     </>
   );
 }

@@ -6,6 +6,7 @@ import iconVideo from '../../../assets/otherIcons/video.svg';
 
 const RecentSessionsData = [
   {
+    id: 1,
     counsellor_name: 'Dr. Abhishek Mehta',
     duration: '50 min',
     session_type: 'voice',
@@ -13,6 +14,7 @@ const RecentSessionsData = [
     profile_image: avata1,
   },
   {
+    id: 2,
     counsellor_name: 'Dr. Abhishek Mehta',
     duration: '50 min',
     session_type: 'video',
@@ -20,6 +22,7 @@ const RecentSessionsData = [
     profile_image: avata1,
   },
   {
+    id: 3,
     counsellor_name: 'Dr. Abhishek Mehta',
     duration: '50 min',
     session_type: 'voice',
@@ -46,7 +49,7 @@ function RecentSessions() {
       <div>
         {RecentSessionsData.map((ele) => {
           return (
-            <div className='flex flex-col gap-3'>
+            <div key={ele.id} className='flex flex-col gap-3'>
               <div className='flex gap-4'>
                 <div>
                   <img src={ele.profile_image} alt='' />
